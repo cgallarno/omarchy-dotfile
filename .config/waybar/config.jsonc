@@ -12,6 +12,7 @@
     "network",
     "pulseaudio",
     "cpu",
+    "custom/cpu-temp",
     "memory",
     "custom/gpu",
     "custom/claude-usage",
@@ -67,6 +68,13 @@
       "critical": 90
     }
   },
+  "custom/cpu-temp": {
+    "exec": "/home/cgallarno/.config/waybar/scripts/cpu-temp.py",
+    "return-type": "json",
+    "interval": 5,
+    "format": "󰔏 {}",
+    "on-click": "omarchy-launch-or-focus-tui btop"
+  },
   "memory": {
     "interval": 5,
     "format": "󰾆 {percentage}%",
@@ -82,7 +90,7 @@
     "return-type": "json",
     "interval": 5,
     "format": "󰢮 {}",
-    "on-click": "omarchy-launch-or-focus-tui btop"
+    "on-click": "omarchy-launch-or-focus-tui nvtop"
   },
   "custom/claude-usage": {
     "exec": "/home/cgallarno/.config/waybar/scripts/claude-usage.py",
