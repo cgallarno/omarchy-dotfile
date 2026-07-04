@@ -11,7 +11,7 @@
     "bluetooth",
     "network",
     "pulseaudio",
-    "cpu",
+    "custom/cpu",
     "custom/cpu-temp",
     "memory",
     "custom/gpu",
@@ -59,14 +59,12 @@
     "interval": 21600
   },
 
-  "cpu": {
+  "custom/cpu": {
+    "exec": "/home/cgallarno/.config/waybar/scripts/cpu.py",
+    "return-type": "json",
     "interval": 5,
-    "format": "󰍛 {usage}%",
-    "on-click": "omarchy-launch-or-focus-tui btop",
-    "states": {
-      "warning": 70,
-      "critical": 90
-    }
+    "format": "󰍛 {}",
+    "on-click": "omarchy-launch-or-focus-tui btop"
   },
   "custom/cpu-temp": {
     "exec": "/home/cgallarno/.config/waybar/scripts/cpu-temp.py",

@@ -30,7 +30,7 @@
   opacity: 0.5;
 }
 
-#cpu,
+#custom-cpu,
 #battery,
 #pulseaudio,
 #custom-omarchy,
@@ -46,7 +46,7 @@
 }
 
 /* System + AI-usage HUD states */
-#cpu.warning,
+#custom-cpu.warning,
 #memory.warning,
 #custom-cpu-temp.warning,
 #custom-gpu.warning,
@@ -55,7 +55,7 @@
   color: #d9a55b;
 }
 
-#cpu.critical,
+#custom-cpu.critical,
 #memory.critical,
 #custom-cpu-temp.critical,
 #custom-gpu.critical,
@@ -64,6 +64,7 @@
   color: #a55555;
 }
 
+#custom-cpu.unavailable,
 #custom-cpu-temp.unavailable,
 #custom-gpu.unavailable,
 #custom-claude-usage.unavailable,
