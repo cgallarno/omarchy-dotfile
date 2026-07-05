@@ -1,0 +1,10 @@
+[Unit]
+Description=Run hass-reporter every 30s
+
+[Timer]
+OnBootSec=45
+OnUnitActiveSec=30
+AccuracySec=5s
+
+[Install]
+WantedBy=timers.target

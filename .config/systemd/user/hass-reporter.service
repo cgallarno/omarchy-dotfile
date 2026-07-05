@@ -1,0 +1,7 @@
+[Unit]
+Description=Ship system + AI-usage metrics to Home Assistant via MQTT
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.config/hass-reporter/reporter.py
