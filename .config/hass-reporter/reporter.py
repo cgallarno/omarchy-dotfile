@@ -18,10 +18,10 @@ AI_CACHE = os.path.expanduser("~/.cache/hass-reporter-ai.json")
 INTERVAL = 30
 EXPIRE = 120           # HA marks sensor unavailable if not updated within this
 AI_TTL = 300           # re-fetch Claude/Codex at most every 5 min
-DEVICE_ID = "omarchy"
+DEVICE_ID = "terra"
 DISCOVERY_PREFIX = "homeassistant"
-STATE_TOPIC = "omarchy/metrics"
-AVAIL_TOPIC = "omarchy/status"
+STATE_TOPIC = "terra/metrics"
+AVAIL_TOPIC = "terra/status"
 
 
 # ---------- config ----------
@@ -55,7 +55,7 @@ def _s(x):
 
 
 class MQTT:
-    def __init__(self, host, port, user, pw, client_id="omarchy-reporter"):
+    def __init__(self, host, port, user, pw, client_id="terra-reporter"):
         self.sock = socket.create_connection((host, int(port)), timeout=10)
         # CONNECT with will (availability): flags user|pass|will|clean = 0xC6
         will_topic, will_msg = AVAIL_TOPIC, b"offline"
@@ -215,8 +215,8 @@ def ai_metrics():
 
 
 # ---------- HA discovery ----------
-DEVICE = {"identifiers": [DEVICE_ID], "name": "Omarchy",
-          "manufacturer": "Gallarno Technology", "model": "Ryzen + RTX 4070 workstation"}
+DEVICE = {"identifiers": [DEVICE_ID], "name": "Terra",
+          "manufacturer": "Gallarno Technology", "model": "Desktop · Ryzen + RTX 4070"}
 
 # key: (friendly name, unit, device_class|None, icon|None)
 SENSORS = {
