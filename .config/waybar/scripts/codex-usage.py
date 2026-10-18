@@ -38,7 +38,11 @@ except Exception as e:
 
 def fetch_remote():
     b64 = base64.b64encode(REMOTE_SCRIPT.encode()).decode()
-    remote = (f"pct exec {CID} -- /usr/local/bin/as_hermes {REMOTE_PY} "
+    # Bound the whole chain remotely too: if pathfinder stalls, killing the
+    # local ssh client does NOT kill the remote pct exec (it reparents to init
+    # and lingers). `timeout` makes the remote side self-terminate so stalled
+    # polls can't pile up on the host.
+    remote = (f"timeout -k 5 18 pct exec {CID} -- /usr/local/bin/as_hermes {REMOTE_PY} "
               f"-c \"import base64;exec(base64.b64decode('{b64}').decode())\"")
     out = subprocess.check_output(
         ["ssh", "-o", "BatchMode=yes", "-o", "ConnectTimeout=8",

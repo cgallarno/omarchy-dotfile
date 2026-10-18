@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$HOME/.local/share/gem/ruby/3.4.0/bin:$PATH
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -70,11 +70,12 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git tmuxinator)
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+alias mux='tmuxinator'
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -108,3 +109,23 @@ eval "$(mise activate zsh)"
 
 # Dotfiles bare repo
 alias dot='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
+# Expose Wayland display to shells started outside the graphical session (e.g. tmux from TTY)
+if [ -z "$WAYLAND_DISPLAY" ]; then
+    _wayland_sock="/run/user/$(id -u)/wayland-1"
+    [ -S "$_wayland_sock" ] && export WAYLAND_DISPLAY=wayland-1
+    unset _wayland_sock
+fi
+
+# Added by flyctl installer
+export FLYCTL_INSTALL="/home/cgallarno/.fly"
+export PATH="$FLYCTL_INSTALL/bin:$PATH"
+
+# --- Flutter / Android dev environment ---
+export FLUTTER_HOME="$HOME/.local/share/flutter"
+export ANDROID_HOME="$HOME/Android/sdk"
+export ANDROID_SDK_ROOT="$ANDROID_HOME"
+# Gradle 8.12 / AGP 8.7 do not support the system JDK 26 -- pin JDK 21 for builds
+export JAVA_HOME="$HOME/.local/share/jdk-21"
+export PATH="$JAVA_HOME/bin:$FLUTTER_HOME/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+# --- end Flutter / Android dev environment ---

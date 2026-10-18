@@ -175,7 +175,10 @@ CODEX_REMOTE = (
 
 def codex_usage():
     b64 = base64.b64encode(CODEX_REMOTE.encode()).decode()
-    remote = ("pct exec 153 -- /usr/local/bin/as_hermes "
+    # Bound the remote side too: killing the local ssh does NOT kill the remote
+    # pct exec (it reparents to init and lingers). Without this, stalled polls
+    # piled up in CT 153 until it OOM-killed the hermes gateway (2026-10-07).
+    remote = ("timeout -k 5 18 pct exec 153 -- /usr/local/bin/as_hermes "
               "/var/lib/hermes/.hermes/hermes-agent/venv/bin/python "
               f"-c \"import base64;exec(base64.b64decode('{b64}').decode())\"")
     out = subprocess.check_output(
@@ -200,10 +203,11 @@ def ai_metrics():
     now = time.time()
     for key, fn in (("claude", claude_usage), ("codex", codex_usage)):
         if now - cache.get(f"_{key}_ts", 0) > AI_TTL:
+            # Stamp the attempt, not just success, so a failing fetch backs
+            # off for AI_TTL instead of retrying every INTERVAL.
+            cache[f"_{key}_ts"] = now
             try:
-                vals = fn()
-                cache.update(vals)
-                cache[f"_{key}_ts"] = now
+                cache.update(fn())
             except Exception:
                 pass  # keep previous cached values if any
     try:
